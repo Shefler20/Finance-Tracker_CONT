@@ -18,7 +18,7 @@ const FormMutation: React.FC<Props> = ({isEdit=false, initialValue, idCategory, 
     const dispatch = useAppDispatch();
     const {handleSubmit, control, reset, formState: { errors }} = useForm<IFormCategories>({
         defaultValues: {
-            type: "",
+            type: "income",
             categoryName: ""
         }
     });
@@ -40,8 +40,8 @@ const FormMutation: React.FC<Props> = ({isEdit=false, initialValue, idCategory, 
             }));
             dispatch(getAllCategories());
         }
-        onClose?.();
         reset();
+        onClose?.();
     };
     return (
         <>

@@ -36,8 +36,8 @@ const Home = () => {
         setModalOpen(true);
     };
 
-    const deleteTransactions = (id: string) => {
-        dispatch(deleteTransaction(id));
+    const deleteTransactions = async (id: string) => {
+        await dispatch(deleteTransaction(id));
         dispatch(getAllTransactions());
     };
 

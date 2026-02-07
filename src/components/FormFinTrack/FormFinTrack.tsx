@@ -46,7 +46,6 @@ const FormFinTrack: React.FC<Props> = ({ isLoading = false, onClose, initialValu
             await dispatch(editTransaction({ id: idTransaction, data: newData }));
             dispatch(getAllTransactions());
         }
-        console.log(newData)
         reset();
         onClose?.();
     };

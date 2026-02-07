@@ -1,9 +1,11 @@
 import {Box, Button, LinearProgress, Stack, Typography} from "@mui/material";
-import ModalFinTrack from "../../components/ModalFinTrack/ModalFinTrack.tsx";
 import {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {clearCategory, deleteCategory, getAllCategories, selectAllCategories, selectLoadingGet, selectLoadingPut, selectLoadingSend, selectOneCategory, setCategory} from "../../features/categorySlice.ts";
 import CardCategory from "../../components/CardCategory/CardCategory.tsx";
+import ModalWrapper from "../../components/ModalWrapper/ModalWrapper.tsx";
+import FormMutation from "../../components/FormMutation/FormMutation.tsx";
+
 
 
 const CategoriesControl = () => {
@@ -34,6 +36,11 @@ const CategoriesControl = () => {
         dispatch(getAllCategories());
     };
 
+    const handleClose = () => {
+        setModalOpen (false);
+        dispatch(clearCategory());
+    };
+
     useEffect(() => {
         dispatch(getAllCategories());
     }, [dispatch]);
@@ -58,14 +65,17 @@ const CategoriesControl = () => {
                     </Box>
                 )}
 
-                <ModalFinTrack
-                    open={modalOpen}
-                    onClose={() => setModalOpen(false)}
-                    isEdit={isEdit}
-                    initialValue={oneCategory ?? undefined}
-                    idCategory={oneCategory?.id}
-                    isLoading={loadingPut || loadingSend}
-                />
+                <ModalWrapper open={modalOpen}
+                              onClose={handleClose}>
+                    <FormMutation
+                        isEdit={isEdit}
+                        initialValue={oneCategory ?? undefined}
+                        idCategory={oneCategory?.id}
+                        isLoading={loadingPut || loadingSend}
+                        onClose={handleClose}
+                    />
+                </ModalWrapper>
+
             </Box>
         </>
     );
