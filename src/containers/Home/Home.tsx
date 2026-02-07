@@ -16,8 +16,11 @@ const Home = () => {
     const loading = useAppSelector(selectTransactionsLoading);
 
     useEffect(() => {
-        dispatch(getAllCategories());
-        dispatch(getAllTransactions());
+        const fetchData = async () => {
+            await dispatch(getAllCategories());  // сначала категории
+            dispatch(getAllTransactions());      // потом транзакции
+        };
+        void fetchData();
     }, [dispatch]);
 
 

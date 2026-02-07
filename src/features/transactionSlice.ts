@@ -62,6 +62,7 @@ export const getAllTransactions = createAsyncThunk<ITransaction[], void>(
             id,
             ...data[id],
             type: categories.find(c => c.id === data[id].categoryId)?.type ?? "income",
+            amount: Number(data[id].amount),
         }));
     }
 );
