@@ -29,8 +29,8 @@ const CategoriesControl = () => {
         setModalOpen(true);
     };
 
-    const deleteOneCategory = (id: string) => {
-        dispatch(deleteCategory(id));
+    const deleteOneCategory = async (id: string) => {
+        await dispatch(deleteCategory(id));
         dispatch(getAllCategories());
     };
 

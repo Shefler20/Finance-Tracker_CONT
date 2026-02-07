@@ -2,8 +2,6 @@ import React from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 import FormMutation from "../FormMutation/FormMutation.tsx";
 
-
-
 interface Props {
     open: boolean;
     onClose: () => void;
