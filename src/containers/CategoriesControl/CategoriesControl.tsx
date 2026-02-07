@@ -52,7 +52,7 @@ const CategoriesControl = () => {
 
                 {!loading  && (
                     <Box sx={{ display: "flex", flexDirection: "row", gap: 6, mt:3, flexWrap: "wrap"}}>
-                        {categories.map(cat => (
+                        {categories.map(cat =>  (
                             <CardCategory key={cat.id} category={cat} onEdit={editCategory} onDelete={deleteOneCategory} />
                         ))}
                     </Box>

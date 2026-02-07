@@ -106,7 +106,11 @@ export const addCategory = createAsyncThunk<void, IFormCategories>('category/add
 
 export const editCategory = createAsyncThunk<void, EditCategory>('category/editCategory',
     async ({id, data})=> {
-    await axiosAPI.put(`/category/${id}.json`, data);
+        const newData = {
+            type: data.type,
+            categoryName: data.categoryName,
+        };
+    await axiosAPI.put(`/category/${id}.json`, newData);
     });
 
 export const deleteCategory = createAsyncThunk<void, string>('category/deleteCategory',
