@@ -1,5 +1,5 @@
 interface IFormCategories {
-    type: string;
+    type: "income" | "expense";
     categoryName: string;
 }
 
@@ -26,4 +26,13 @@ interface ISendFormApi {
     categoryId: string;
     amount: number;
     date: string;
+}
+
+interface ITransaction extends ITransactionForm {
+    id: string;
+    date: string;
+}
+
+interface ITransactionAPI {
+    [key: string]: ISendFormApi;
 }

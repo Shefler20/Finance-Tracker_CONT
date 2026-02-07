@@ -1,8 +1,9 @@
 import { Box, Select, MenuItem, TextField, Button, Typography, CircularProgress } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
-import { useAppSelector } from "../../app/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import { selectAllCategories } from "../../features/categorySlice.ts";
 import {useEffect} from "react";
+import {addTransaction, editTransaction, getAllTransactions} from "../../features/transactionSlice.ts";
 
 interface Props {
     isLoading?: boolean;
@@ -14,6 +15,7 @@ interface Props {
 
 const FormFinTrack: React.FC<Props> = ({ isLoading = false, onClose, initialValues, isEdit=false,idTransaction }) => {
     const categories = useAppSelector(selectAllCategories);
+    const dispatch = useAppDispatch();
 
     const { handleSubmit, control, watch, formState: { errors }, reset } = useForm<ITransactionForm>({
         defaultValues: { type: "income", categoryId: "", amount: 0 }
@@ -31,16 +33,18 @@ const FormFinTrack: React.FC<Props> = ({ isLoading = false, onClose, initialValu
 
     const filteredCategories = categories.filter(cat => cat.type === selectedType);
 
-    const submitHandler = (data: ITransactionForm) => {
+    const submitHandler = async (data: ITransactionForm) => {
         const newData: ISendFormApi = {
             categoryId: data.categoryId,
             amount: data.amount,
             date: new Date().toISOString(),
         };
         if (!isEdit || !idTransaction) {
-            //post
+            await dispatch(addTransaction(newData));
+            dispatch(getAllTransactions());
         }else {
-            //put
+            await dispatch(editTransaction({ id: idTransaction, data: newData }));
+            dispatch(getAllTransactions());
         }
         console.log(newData)
         reset();
