@@ -10,3 +10,8 @@ interface ICategory extends IFormCategories {
 interface ICategoriesAPI {
     [key: string]: IFormCategories;
 }
+
+interface EditCategory {
+    id: string;
+    data: IFormCategories;
+}

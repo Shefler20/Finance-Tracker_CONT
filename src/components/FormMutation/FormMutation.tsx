@@ -2,6 +2,9 @@
 import {Box, Select, MenuItem, TextField, Button, Typography, CircularProgress} from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import {useEffect} from "react";
+import {useAppDispatch} from "../../app/hooks.ts";
+import {addCategory, editCategory, getAllCategories} from "../../features/categorySlice.ts";
+
 
 interface Props {
     isEdit?: boolean,
@@ -12,6 +15,7 @@ interface Props {
 }
 
 const FormMutation: React.FC<Props> = ({isEdit=false, initialValue, idCategory, isLoading=false, onClose}) => {
+    const dispatch = useAppDispatch();
     const {handleSubmit, control, reset, formState: { errors }} = useForm<IFormCategories>({
         defaultValues: {
             type: "",
@@ -25,13 +29,17 @@ const FormMutation: React.FC<Props> = ({isEdit=false, initialValue, idCategory, 
         }
     }, [initialValue,reset]);
 
-    const onSubmit = (data:IFormCategories) => {
+    const onSubmit = async (data:IFormCategories) => {
         if (!isEdit || !idCategory) {
-            //post
+            await dispatch(addCategory(data));
+            dispatch(getAllCategories());
         }else {
-            //put
+            await dispatch(editCategory({
+                id: idCategory,
+                data: data
+            }));
+            dispatch(getAllCategories());
         }
-        console.log(data);
         onClose?.();
         reset();
     };
@@ -50,7 +58,7 @@ const FormMutation: React.FC<Props> = ({isEdit=false, initialValue, idCategory, 
                     bgcolor: "background.paper"
                 }}
             >
-
+                <Typography variant="h5" component="h2" sx={{textAlign: "center"}}>{isEdit ? "Edit" : "Add"}</Typography>
                 <Controller
                     name="type"
                     control={control}
